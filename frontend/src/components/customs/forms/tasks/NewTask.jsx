@@ -45,6 +45,11 @@ const Newtask = ({ status, closeModal }) => {
       .max(160, {
         message: "Description must not be longer than 30 characters.",
       }),
+    assigned_user: z
+      .string({
+        required_error: "Please select an email to display.",
+      })
+      .nullable(),
   });
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -56,7 +61,7 @@ const Newtask = ({ status, closeModal }) => {
   });
   async function onSubmit(values) {
     mutate(
-      { ...values, assigned_user: Number(values.assigned_user), status },
+      { ...values, status },
       {
         onSuccess: () => {
           toast("Task created successfully");
@@ -71,7 +76,6 @@ const Newtask = ({ status, closeModal }) => {
     );
   }
   if (isPendingUser) return <div>Loading...</div>;
-  console.log(status);
 
   return (
     <Form {...form}>
@@ -128,7 +132,7 @@ const Newtask = ({ status, closeModal }) => {
                     </FormControl>
                     <SelectContent>
                       {data.map((user) => (
-                        <SelectItem key={user.id} value={user.id}>
+                        <SelectItem key={user.id} value={`${user.id}`}>
                           {user.name}
                         </SelectItem>
                       ))}

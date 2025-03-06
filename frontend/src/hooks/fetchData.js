@@ -15,13 +15,10 @@ export const usePostData = (mutationKey, func) => {
   });
 };
 
-export const usePutData = (endpoint, mutationKey) => {
+export const usePutData = (mutationKey, func, id) => {
   return useMutation({
     mutationKey: [mutationKey],
-    mutationFn: async (data) => {
-      const response = await axiosInstance.put(endpoint, data);
-      return response.data;
-    },
+    mutationFn: (values) => func(id, values),
   });
 };
 

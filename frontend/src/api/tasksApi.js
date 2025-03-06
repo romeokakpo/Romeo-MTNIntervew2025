@@ -12,10 +12,18 @@ export const getAllTasks = async () => {
   return response.data;
 };
 
-export const createTask = async (electionData) => {
+export const createTask = async (taskData) => {
   const response = await axiosInstance.post(
     API_ENDPOINTS.TASKS.CREATE_TASK,
-    electionData
+    taskData
+  );
+  return response.data;
+};
+
+export const updateTask = async (id, taskData) => {
+  const response = await axiosInstance.put(
+    API_ENDPOINTS.TASKS.UPDATE_TASK(id),
+    taskData
   );
   return response.data;
 };

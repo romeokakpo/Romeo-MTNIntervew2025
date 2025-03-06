@@ -10,6 +10,8 @@ const API_ENDPOINTS = {
     GET_TASK: (id) => `/tasks/${id}/`,
     GET_ALL_TASKS: "/tasks/",
     CREATE_TASK: "/tasks/",
+    UPDATE_TASK: (id) => `/tasks/${id}/`,
+    DELETE_TASK: (id) => `/tasks/${id}/`,
   },
   USERS: {
     GET_USER: (id) => `/users/${id}/`,
