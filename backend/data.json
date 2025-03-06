@@ -1,0 +1,147 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "email": "user1@example.com",
+      "name": "User One",
+      "password": "pbkdf2_sha256$260000$examplehash1"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "email": "user2@example.com",
+      "name": "User Two",
+      "password": "pbkdf2_sha256$260000$examplehash2"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "email": "user3@example.com",
+      "name": "User Three",
+      "password": "pbkdf2_sha256$260000$examplehash3"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "email": "user4@example.com",
+      "name": "User Four",
+      "password": "pbkdf2_sha256$260000$examplehash4"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "email": "user5@example.com",
+      "name": "User Five",
+      "password": "pbkdf2_sha256$260000$examplehash5"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "title": "Task 1",
+      "description": "Description for Task 1",
+      "status": "PENDING",
+      "assigned_user": 1
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "title": "Task 2",
+      "description": "Description for Task 2",
+      "status": "IN_PROGRESS",
+      "assigned_user": 2
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "title": "Task 3",
+      "description": "Description for Task 3",
+      "status": "COMPLETED",
+      "assigned_user": 3
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+      "title": "Task 4",
+      "description": "Description for Task 4",
+      "status": "PENDING",
+      "assigned_user": 4
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 5,
+    "fields": {
+      "title": "Task 5",
+      "description": "Description for Task 5",
+      "status": "IN_PROGRESS",
+      "assigned_user": 5
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 6,
+    "fields": {
+      "title": "Task 6",
+      "description": "Description for Task 6",
+      "status": "COMPLETED",
+      "assigned_user": 1
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 7,
+    "fields": {
+      "title": "Task 7",
+      "description": "Description for Task 7",
+      "status": "PENDING",
+      "assigned_user": 2
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 8,
+    "fields": {
+      "title": "Task 8",
+      "description": "Description for Task 8",
+      "status": "IN_PROGRESS",
+      "assigned_user": 3
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 9,
+    "fields": {
+      "title": "Task 9",
+      "description": "Description for Task 9",
+      "status": "COMPLETED",
+      "assigned_user": 4
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 10,
+    "fields": {
+      "title": "Task 10",
+      "description": "Description for Task 10",
+      "status": "PENDING",
+      "assigned_user": 5
+    }
+  }
+]
