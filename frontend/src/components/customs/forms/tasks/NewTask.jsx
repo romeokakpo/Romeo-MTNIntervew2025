@@ -11,8 +11,6 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
-import { login } from "@/api/authApi";
 import { cn } from "@/lib/utils";
 import { useFetchData, usePostData } from "@/hooks/fetchData";
 import { handleApiError } from "@/utils/handleErrors";
@@ -26,11 +24,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createTask } from "@/api/tasksApi";
+import { useQueryClient } from "@tanstack/react-query";
 
-const Newtask = () => {
-  const { mutate, isPending } = usePostData("loginUser", login);
+const Newtask = ({ status, closeModal }) => {
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = usePostData("createTask", createTask);
   const { data, isPending: isPendingUser } = useFetchData(
-    "getAllTasks",
+    "getAllUsers",
     getAllUsers
   );
 
@@ -44,7 +45,6 @@ const Newtask = () => {
       .max(160, {
         message: "Description must not be longer than 30 characters.",
       }),
-    assigned_user: z.string({ required_error: "Assigned user is required" }),
   });
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -55,19 +55,23 @@ const Newtask = () => {
     },
   });
   async function onSubmit(values) {
-    console.log(values);
-
-    mutate(values, {
-      onSuccess: (data) => {
-        toast();
-      },
-      onError: (error) => {
-        handleApiError(error);
-      },
-    });
+    mutate(
+      { ...values, assigned_user: Number(values.assigned_user), status },
+      {
+        onSuccess: () => {
+          toast("Task created successfully");
+          form.reset();
+          queryClient.invalidateQueries("getAllTasks");
+          closeModal();
+        },
+        onError: (error) => {
+          handleApiError(error);
+        },
+      }
+    );
   }
   if (isPendingUser) return <div>Loading...</div>;
-  console.log(data);
+  console.log(status);
 
   return (
     <Form {...form}>
@@ -112,7 +116,7 @@ const Newtask = () => {
           {!isPendingUser && (
             <FormField
               control={form.control}
-              name="assiged_user"
+              name="assigned_user"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-semibold">Assign User</FormLabel>
@@ -124,8 +128,8 @@ const Newtask = () => {
                     </FormControl>
                     <SelectContent>
                       {data.map((user) => (
-                        <SelectItem key={user.id} value="papa">
-                          Papa
+                        <SelectItem key={user.id} value={user.id}>
+                          {user.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

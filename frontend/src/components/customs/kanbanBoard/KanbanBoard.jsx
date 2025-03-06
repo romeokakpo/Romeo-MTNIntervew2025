@@ -9,25 +9,37 @@ import Newtask from "../forms/tasks/NewTask";
 const KanbanBoard = ({ tasks }) => {
   const columns = {
     Pending: {
-      tasks: tasks.filter((task) => task.status === "Pending"),
+      tasks: tasks.filter((task) => task.status === "PENDING"),
       color: "#DAA520",
     },
     "In Progress": {
-      tasks: tasks.filter((task) => task.status === "In Progress"),
+      tasks: tasks.filter((task) => task.status === "IN_PROGRESS"),
       color: "#6495ED",
     },
     Completed: {
-      tasks: tasks.filter((task) => task.status === "Completed"),
+      tasks: tasks.filter((task) => task.status === "COMPLETED"),
       color: "#4CAF50",
     },
   };
+  const equivalent = {
+    Pending: "PENDING",
+    "In Progress": "IN_PROGRESS",
+    Completed: "COMPLETED",
+  };
   const [isModalOpen, setModalOpen] = useState(false);
+  const [activeStatus, setActiveStatus] = useState("Pending");
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
+    console.log("yes");
 
     // const { source, destination, draggableId } = result;
     // const newStatus = destination.droppableId;
+  };
+
+  const handleModalOpen = (status) => {
+    setModalOpen(true);
+    setActiveStatus(status);
   };
 
   return (
@@ -46,16 +58,19 @@ const KanbanBoard = ({ tasks }) => {
                   {tasks.map((task, index) => (
                     <Draggable
                       key={task.id}
-                      draggableId={task.id}
+                      draggableId={"drag" + task.id}
                       index={index}
                     >
                       {(provided) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          className="bg-white p-4 mt-2 rounded shadow"
+                          className="bg-white mt-2 rounded shadow mx-4"
                         >
-                          <TaskCard task={task} />
+                          <TaskCard
+                            task={task}
+                            dragHandleProps={provided.dragHandleProps}
+                          />
                         </div>
                       )}
                     </Draggable>
@@ -67,7 +82,7 @@ const KanbanBoard = ({ tasks }) => {
                   )}
                   <hr />
                   <button
-                    onClick={() => setModalOpen(true)}
+                    onClick={() => handleModalOpen(status)}
                     className="bg-gray-200 px-6 py-2 rounded-lg cursor-pointer mt-2 mx-auto text-sm text-center flex justify-center items-center"
                   >
                     <PlusCircle size={16} className="mr-2" />
@@ -77,7 +92,10 @@ const KanbanBoard = ({ tasks }) => {
                     isOpen={isModalOpen}
                     onClose={() => setModalOpen(false)}
                   >
-                    <Newtask />
+                    <Newtask
+                      closeModal={() => setModalOpen(false)}
+                      status={equivalent[activeStatus]}
+                    />
                   </Modal>
                 </KanbanColumn>
                 {provided.placeholder}
