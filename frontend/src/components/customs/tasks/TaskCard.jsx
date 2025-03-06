@@ -4,7 +4,7 @@ import { FaEye, FaEdit, FaTrash, FaRegLightbulb } from "react-icons/fa";
 import Modal from "../Modal";
 import EditTask from "../forms/tasks/EditTask";
 
-const TaskCard = ({ task, dragHandleProps }) => {
+const TaskCard = ({ task, dragHandleProps, sendMessage }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
@@ -46,6 +46,7 @@ const TaskCard = ({ task, dragHandleProps }) => {
           status={task.status}
           assigned_user={task.assigned_user?.id || null}
           closeModal={() => setModalOpen(false)}
+          sendMessage={sendMessage}
         />
       </Modal>
     </div>

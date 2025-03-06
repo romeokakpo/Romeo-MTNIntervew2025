@@ -11,6 +11,7 @@ const useWebSocket = (url) => {
   const sendMessage = useCallback(
     (msg) => {
       if (socket && connected) {
+        console.log("Sending message:", msg);
         socket.send(msg);
       }
     },

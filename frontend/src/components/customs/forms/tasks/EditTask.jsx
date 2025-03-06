@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateTask } from "@/api/tasksApi";
-import { useQueryClient } from "@tanstack/react-query";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const EditTask = ({
@@ -35,8 +34,8 @@ const EditTask = ({
   assigned_user,
   status,
   closeModal,
+  sendMessage,
 }) => {
-  const queryClient = useQueryClient();
   const { mutate, isPending } = usePutData("updateTask", updateTask, id);
   const { data, isPending: isPendingUser } = useFetchData(
     "getAllUsers",
@@ -80,7 +79,7 @@ const EditTask = ({
         onSuccess: () => {
           toast("Task updated successfully", { type: "success" });
           form.reset();
-          queryClient.invalidateQueries("getAllTasks");
+          sendMessage("task_updated" + new Date());
           closeModal();
         },
         onError: (error) => {

@@ -6,7 +6,7 @@ import Modal from "../Modal";
 import { useState } from "react";
 import Newtask from "../forms/tasks/NewTask";
 
-const KanbanBoard = ({ tasks }) => {
+const KanbanBoard = ({ tasks, sendMessage }) => {
   const columns = {
     Pending: {
       tasks: tasks.filter((task) => task.status === "PENDING"),
@@ -70,6 +70,7 @@ const KanbanBoard = ({ tasks }) => {
                           <TaskCard
                             task={task}
                             dragHandleProps={provided.dragHandleProps}
+                            sendMessage={sendMessage}
                           />
                         </div>
                       )}

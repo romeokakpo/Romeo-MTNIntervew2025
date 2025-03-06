@@ -21,7 +21,7 @@ import { PasswordInput } from "../../passwordInput.jsx/PasswordInput";
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const { mutate, isPending } = usePostData("loginUser", login);
+  const { mutate, isPending, isError } = usePostData("loginUser", login);
 
   const FormSchema = z.object({
     email: z.string().email(),
@@ -90,9 +90,9 @@ const LoginForm = () => {
               type="submit"
               className={cn(
                 "text-gray-700 bg-white hover:text-white hover:bg-gray-700 font-medium",
-                isPending ? "cursor-not-allowed" : ""
+                isPending && !isError ? "cursor-not-allowed" : ""
               )}
-              disabled={isPending}
+              disabled={isPending && !isError}
             >
               Login
             </Button>

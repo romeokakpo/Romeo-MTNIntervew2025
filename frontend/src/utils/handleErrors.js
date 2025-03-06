@@ -6,6 +6,7 @@ export const handleApiError = (error) => {
     console.log(error.response);
     const message =
       error.response.data?.message ||
+      error.response.data?.detail ||
       error.response.data?.email[0] ||
       "Une erreur côté serveur est survenue.";
     toast(message, { type: "error" });
