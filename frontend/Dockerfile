@@ -2,16 +2,17 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json* yarn.lock* ./
+COPY package.json /app/
+COPY package-lock.json /app/
 
-# Installer les dépendances
-RUN if [ -f package-lock.json ]; then npm install; \
-    elif [ -f yarn.lock ]; then yarn install; \
-    fi
+RUN npm install
 
 COPY . /app/
 
-EXPOSE 5173
+RUN npm run build
 
-# Lancer le serveur de développement
-CMD ["npm", "start"]
+RUN npm install -g serve
+
+EXPOSE 3000
+
+CMD ["serve", "-s", "build", "-l", "3000"]
