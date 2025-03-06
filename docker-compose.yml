@@ -6,7 +6,13 @@ services:
       - ./backend:/app
       - ./backend/db.sqlite3:/app/db.sqlite3
     ports:
-      - "8000:8000"  
+      - "8000:8000" 
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
   frontend:
     build:
       context: ./frontend 

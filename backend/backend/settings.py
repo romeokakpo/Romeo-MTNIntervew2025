@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!8g@jee__$56%7df=@ezkadl2qm#dp^(7bt#^_+6b(x4q@o74w'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -87,7 +90,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(os.getenv('REDIS_HOST', '127.0.0.1'), int(os.getenv('REDIS_PORT', 6379)))],
         },
     },
 }
@@ -97,8 +100,8 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': BASE_DIR / os.getenv('DB_NAME', 'db.sqlite3'),
     }
 }
 
@@ -156,15 +159,15 @@ REST_FRAMEWORK = {
 
 # Simple JWT
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
-    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('ACCESS_TOKEN_LIFETIME', 60))),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(minutes=int(os.getenv('SLIDING_TOKEN_REFRESH_LIFETIME', 1440))),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('SLIDING_TOKEN_LIFETIME', 43200))),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(minutes=int(os.getenv('SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER', 1440))),
+    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(minutes=int(os.getenv('SLIDING_TOKEN_LIFETIME_LATE_USER', 43200))),
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # Disable for production
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True') == 'True'
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:5173',
 # ]

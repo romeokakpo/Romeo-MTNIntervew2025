@@ -15,7 +15,7 @@ Before starting, make sure you have the following tools installed:
 
 ---
 
-## **1. Clone the Repository (if applicable)**
+## **1. Clone the Repository**
 
 If the project is in a repository, start by cloning it to your local machine:
 
@@ -28,7 +28,12 @@ cd Romeo-MTNIntervew2025
 
 ## **2. Running the Project**
 
-### **Step 1: Build and Start the Containers**
+### **Step 1: Create `.env` Files**
+
+- **`Backend`**: Create a file named `.env `in the backend directory using the content from `.env.example`.
+- **`Frontend`**: Create a file named `.env` in the frontend directory using the content from `.env.example`.
+
+### **Step 2: Build and Start the Containers**
 
 ```bash
 docker-compose up --build
@@ -37,6 +42,12 @@ docker-compose up --build
 - **`--build`** ensures that Docker rebuilds the images if necessary.
 
 This will start both the frontend (React) and backend (Django) services. Docker Compose will automatically handle the communication between the services.
+
+Inside `backend/` folder run:
+
+```bash
+docker-compose exec backend python manage.py migrate
+```
 
 ### **Step 2: Access the Application**
 

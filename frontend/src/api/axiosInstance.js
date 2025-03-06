@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api", // Remplacez par l'URL de votre API
+  baseURL: process.env.REACT_APP_API_URL, // Remplacez par l'URL de votre API
   timeout: 10000, // Timeout de 10 secondes
   headers: {
     "Content-Type": "application/json",
