@@ -20,7 +20,7 @@ const Dashboard = () => {
   }, [message, queryClient]);
 
   if (isError) return <div>Error loading tasks</div>;
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <div className="text-white">Loading...</div>;
   return (
     <KanbanBoard tasks={data} message={message} sendMessage={sendMessage} />
   );
