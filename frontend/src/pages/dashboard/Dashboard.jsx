@@ -9,8 +9,10 @@ const Dashboard = () => {
   const { socket, message, connected, sendMessage } = useWebSocket(
     process.env.REACT_APP_WS_URL
   );
+
   const queryClient = useQueryClient();
   const { data, isPending, isError } = useFetchData("getAllTasks", getAllTasks);
+
   useEffect(() => {
     if (message) {
       console.log("invalidate");

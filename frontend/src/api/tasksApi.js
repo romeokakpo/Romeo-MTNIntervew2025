@@ -27,3 +27,10 @@ export const updateTask = async (id, taskData) => {
   );
   return response.data;
 };
+
+export const deleteTask = async (id) => {
+  const response = await axiosInstance.delete(
+    API_ENDPOINTS.TASKS.DELETE_TASK(id)
+  );
+  return response.data;
+};

@@ -47,7 +47,7 @@ const Newtask = ({ status, closeModal }) => {
       }),
     assigned_user: z
       .string({
-        required_error: "Please select an email to display.",
+        required_error: "Please select an assigned user.",
       })
       .nullable(),
   });
@@ -64,7 +64,7 @@ const Newtask = ({ status, closeModal }) => {
       { ...values, status },
       {
         onSuccess: () => {
-          toast("Task created successfully");
+          toast("Task created successfully", { type: "success" });
           form.reset();
           queryClient.invalidateQueries("getAllTasks");
           closeModal();
@@ -117,32 +117,31 @@ const Newtask = ({ status, closeModal }) => {
               </FormItem>
             )}
           />
-          {!isPendingUser && (
-            <FormField
-              control={form.control}
-              name="assigned_user"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-semibold">Assign User</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger key={"selectTrigger"}>
-                        <SelectValue placeholder="Assign user" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {data.map((user) => (
-                        <SelectItem key={user.id} value={`${user.id}`}>
-                          {user.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+
+          <FormField
+            control={form.control}
+            name="assigned_user"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold">Assign User</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger key={"selectTrigger"}>
+                      <SelectValue placeholder="Assign user" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {data.map((user) => (
+                      <SelectItem key={user.id} value={`${user.id}`}>
+                        {user.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="mx-auto">
             <Button
               type="submit"

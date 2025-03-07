@@ -2,7 +2,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import TaskCard from "../tasks/TaskCard";
 import { PlusCircle } from "lucide-react";
 import Modal from "../Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Newtask from "../forms/tasks/NewTask";
 import { useMutation } from "@tanstack/react-query";
 import { updateTask } from "@/api/tasksApi";
@@ -14,34 +14,44 @@ const KanbanBoard = ({ tasks, sendMessage }) => {
     mutationFn: (values) => updateTask(values.id, { ...values }),
   });
 
+  const [localTasks, setLocalTasks] = useState(tasks);
+
+  useEffect(() => {
+    setLocalTasks(tasks);
+  }, [tasks]);
+
   const columns = {
     Pending: {
-      tasks: tasks.filter((task) => task.status === "PENDING"),
+      tasks: localTasks.filter((task) => task.status === "PENDING"),
       color: "#DAA520",
     },
     "In Progress": {
-      tasks: tasks.filter((task) => task.status === "IN_PROGRESS"),
+      tasks: localTasks.filter((task) => task.status === "IN_PROGRESS"),
       color: "#6495ED",
     },
     Completed: {
-      tasks: tasks.filter((task) => task.status === "COMPLETED"),
+      tasks: localTasks.filter((task) => task.status === "COMPLETED"),
       color: "#4CAF50",
     },
   };
+
   const equivalent = {
     Pending: "PENDING",
     "In Progress": "IN_PROGRESS",
     Completed: "COMPLETED",
   };
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState("Pending");
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
 
-    const { source: _s, destination, draggableId } = result;
+    const { source, destination, draggableId } = result;
+    if (source.droppableId == destination.droppableId) return;
+
     const newStatus = equivalent[destination.droppableId];
-    const task = tasks.find((v) => v.id == Number(draggableId));
+    const task = localTasks.find((v) => v.id == Number(draggableId));
     mutate(
       {
         ...task,
@@ -55,6 +65,13 @@ const KanbanBoard = ({ tasks, sendMessage }) => {
         },
       }
     );
+
+    //
+    const temp = localTasks.map((v) => {
+      if (v.id == draggableId) v.status = newStatus;
+      return v;
+    });
+    setLocalTasks(temp);
   };
 
   const handleModalOpen = (status) => {

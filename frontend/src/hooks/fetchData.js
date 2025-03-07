@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/api/axiosInstance";
 
 export const useFetchData = (queryKey, func) => {
   return useQuery({
@@ -22,12 +21,9 @@ export const usePutData = (mutationKey, func, id) => {
   });
 };
 
-export const useDeleteData = (mutationKey) => {
+export const useDeleteData = (mutationKey, func) => {
   return useMutation({
     mutationKey: [mutationKey],
-    mutationFn: async ({ endpoint }) => {
-      const response = await axiosInstance.delete(endpoint);
-      return response.data;
-    },
+    mutationFn: func,
   });
 };
