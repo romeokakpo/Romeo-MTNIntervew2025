@@ -51,7 +51,7 @@ docker-compose exec backend python manage.py migrate
 
 ### **Step 2: Access the Application**
 
-- **Frontend (React)**: Open your browser and navigate to `http://localhost:5173` to access the React application running in development mode.
+- **Frontend (React)**: Open your browser and navigate to `http://localhost:3000` to access the React application running in development mode.
 - **Backend (Django)**: The Django app will be accessible at `http://localhost:8000`.
 
 The React app will make API requests to `http://backend:8000`, which points to the Django backend running in Docker.
